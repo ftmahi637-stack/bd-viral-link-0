@@ -1,0 +1,14 @@
+<!doctype html>
+<html lang="bn"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>BD VIRAL LINK — Watch & Share</title><link rel="stylesheet" href="/style.css"></head>
+<body><header class="top"><a class="brand" href="/">BD <span>VIRAL</span> LINK</a><a class="admin-link" href="/admin">Admin Login</a></header>
+<main class="wrap"><section class="hero"><div class="eyebrow">YOUR VIDEO SPACE</div><h1>দেখুন, উপভোগ করুন,<br><span>শেয়ার করুন।</span></h1><p>BD VIRAL LINK-এ নতুন ভিডিও খুঁজে নিন এবং বন্ধুদের সঙ্গে শেয়ার করুন।</p>
+<div class="search"><span>⌕</span><input id="search" placeholder="ভিডিও বা ক্যাটাগরি খুঁজুন..."></div></section>
+<div class="section-head"><div><div class="eyebrow">DISCOVER</div><h2>সর্বশেষ ভিডিও</h2></div><span id="count" class="muted"></span></div>
+<div id="videos" class="grid"><p class="muted">ভিডিও লোড হচ্ছে...</p></div><footer>© <span id="year"></span> BD VIRAL LINK · All rights reserved</footer></main>
+<script>
+let all=[]; const esc=s=>String(s||"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+function render(){const q=document.querySelector("#search").value.toLowerCase();const list=all.filter(v=>(v.title+" "+v.category+" "+v.description).toLowerCase().includes(q));document.querySelector("#count").textContent=list.length+" টি ভিডিও";document.querySelector("#videos").innerHTML=list.length?list.map(v=>`<a class="video-card" href="/watch/${v.id}"><div class="thumb">${v.thumbnail?`<img src="${esc(v.thumbnail)}" alt="">`:"<div class='thumb-fallback'>▶</div>"}<span class="play">▶</span></div><div class="card-info"><span class="tag">${esc(v.category)}</span><h3>${esc(v.title)}</h3><p>${new Date(v.createdAt).toLocaleDateString("bn-BD")}</p></div></a>`).join(""):"<p class='muted'>কোনো ভিডিও পাওয়া যায়নি।</p>";}
+fetch("/api/videos").then(r=>r.json()).then(v=>{all=v;render()}).catch(()=>document.querySelector("#videos").textContent="ভিডিও লোড করা যায়নি।");
+document.querySelector("#search").addEventListener("input",render);document.querySelector("#year").textContent=new Date().getFullYear();
+</script></body></html>
